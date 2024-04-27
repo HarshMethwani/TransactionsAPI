@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Ethereum: </h1>
+    <p id = "price"></p>
+    <script>
+        function fetchEthereumPrice() {
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=inr')
+                .then(response => response.json())
+                .then(data => {
+                    let price = data.ethereum.inr;
+                    document.getElementById('price').textContent = price;
+                })
+                .catch(error => {
+                    console.error('Error fetching Ethereum price:', error.message);
+                });
+        }
+        function fetchAndUpdatePrice() {
+            fetchEthereumPrice(); // Fetch Ethereum price immediately
+
+            // Fetch Ethereum price every 10 minutes
+            setInterval(fetchEthereumPrice, 60 * 1000);
+        }
+
+        // Call fetchAndUpdatePrice() when the page loads
+        window.onload = fetchAndUpdatePrice;
+    </script>
+</body>
+</html>
